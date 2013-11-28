@@ -145,7 +145,16 @@ namespace StackExchange.Opserver.Data.Redis
         {
             // Get the keys
             var sw = Stopwatch.StartNew();
-            var keys = rc.Wait(rc.Keys.Find(Database, "*"));
+            IEnumerable<string> keys;
+            var features = rc.Features;
+            if (features != null && features.Scan)
+            {
+                keys = rc.Keys.Scan(Database, "*");
+            }
+            else
+            {
+                keys = rc.Wait(rc.Keys.Find(Database, "*"));
+            }
             KeyTime = sw.Elapsed;
 
             rc.CompletionMode = ResultCompletionMode.PreserveOrder;

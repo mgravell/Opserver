@@ -218,3 +218,4 @@ pip-log.txt
 Opserver/config/*.json
 Opserver/config/*.config
 *.StackOverflow.*
+*.sln.ide*
